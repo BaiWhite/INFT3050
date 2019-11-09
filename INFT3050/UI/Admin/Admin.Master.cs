@@ -10,7 +10,7 @@ namespace INFT3050.UI.Admin
     /// <summary>
     /// master page for admin interface
     /// </summary>
-    public partial class Admin : System.Web.UI.Page
+    public partial class Admin : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

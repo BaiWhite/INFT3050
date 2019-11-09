@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="INFT3050.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="INFT3050.UI.Admin.Admin" %>
 
 <!DOCTYPE html>
 
@@ -54,7 +54,7 @@
                         <li><a runat="server" href="~/">Main</a></li>
                         <li><a runat="server" href="~/UI/Admin/ListAllItemManage.aspx">ListAllItemManage</a></li>
                         <li><a runat="server" href="~/UI/Admin/Registration.aspx">Registration</a></li>
-                        <li><a runat="server" href="~/UI/Admin/ListAllUser.aspx">ListAllUser</a></li>
+                        <li><a runat="server" href="~/UI/Admin/ListAllUserManage.aspx">ListAllUser</a></li>
                     </ul>
                 </div>
             </div>

@@ -202,7 +202,7 @@
     <Content Include="Site.Master" />
     <Content Include="UI\Admin\ListAllItemManage.aspx" />
     <Content Include="UI\Admin\ListAllUserManage.aspx" />
-    <Content Include="UI\Admin\UserManage.aspx" />
+    <Content Include="UI\Admin\UserDetailManage.aspx" />
     <Content Include="UI\Error.aspx" />
     <Content Include="UI\Product.aspx" />
     <Content Include="UI\Admin\ItemManage.aspx" />
@@ -297,12 +297,12 @@
     <Compile Include="UI\Admin\ListAllUserManage.aspx.designer.cs">
       <DependentUpon>ListAllUserManage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="UI\Admin\UserManage.aspx.cs">
-      <DependentUpon>UserManage.aspx</DependentUpon>
+    <Compile Include="UI\Admin\UserDetailManage.aspx.cs">
+      <DependentUpon>UserDetailManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UI\Admin\UserManage.aspx.designer.cs">
-      <DependentUpon>UserManage.aspx</DependentUpon>
+    <Compile Include="UI\Admin\UserDetailManage.aspx.designer.cs">
+      <DependentUpon>UserDetailManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="UI\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>

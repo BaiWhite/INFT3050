@@ -90,20 +90,24 @@ namespace INFT3050.DAL
             List<Cart> carts = new List<Cart>();
             Cart cart = new Cart();
 
-            cart = ReadCart(dataReader);
             while (dataReader.Read())
             {
+                cart = ReadCart(dataReader);
                 if (withItem)
                 {
-                    cmd = new SqlCommand("select * from CartItem where CartID='" + cart.CartID + "'", connection);
-                    dataReader = cmd.ExecuteReader();
-                    while (dataReader.Read())
+                    using (SqlConnection connect = OpenDataBase())
                     {
-                        cart.Items.Add(ReadCartItem(dataReader));
+                        cmd = new SqlCommand("select * from CartItem where CartID='" + cart.CartID + "'", connect);
+                        dataReader = cmd.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            cart.Items.Add(ReadCartItem(dataReader));
+                        }
                     }
                 }
                 carts.Add(cart);
             }
+            connection.Close();
             return carts;
         }
 

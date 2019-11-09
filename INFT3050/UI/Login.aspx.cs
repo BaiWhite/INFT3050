@@ -17,6 +17,10 @@ namespace INFT3050.UI
             {
                 Warning.InnerText = "Missing UserName or Password";
             }
+            else if (Request.QueryString["Null"] == "reset")
+            {
+                Warning.InnerText = "Password reset";
+            }
 
             if (Request.IsSecureConnection == false)
             {
@@ -70,6 +74,7 @@ namespace INFT3050.UI
                 user.Password = PasswordForget.Text;
                 manager.Update(user);
             }
+            Response.Redirect("Login.aspx?Null=reset");
         }
     }
 }

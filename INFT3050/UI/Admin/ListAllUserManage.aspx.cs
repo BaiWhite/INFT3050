@@ -29,7 +29,7 @@ namespace INFT3050.UI.Admin
             string innerHtml = "<ul>";
             foreach (var item in resultList)
             {
-                innerHtml = innerHtml + "<li><a runat=\"server\" href=\"~/UI/Admin/UserManage.aspx?UserID=" + item.UserID + " \">" + item.UserName + "</a></li><br />";
+                innerHtml = innerHtml + "<li><a runat=\"server\" href=\"UserDetailManage.aspx?UserID=" + item.UserID + " \">" + item.UserName + "</a></li><br />";
             }
             innerHtml = innerHtml + "</ul>";
             UserList.InnerHtml = innerHtml;

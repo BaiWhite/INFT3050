@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace INFT3050 {
+namespace INFT3050.UI.Admin {
     
     
-    public partial class SiteMaster {
+    public partial class Admin {
         
         /// <summary>
         /// AdminContent 控件。

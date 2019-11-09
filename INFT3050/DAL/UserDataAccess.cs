@@ -33,19 +33,21 @@ namespace INFT3050.DAL
         /// <returns>userID if valid, otherwise "Invalid username or password"</returns>
         public string LoginDataBase(Login login)
         {
-            SqlConnection connection = OpenDataBase();
             string selectQuery = "select * FROM UserTable WHERE username='" + login.UserName + "' and password='" + login.Password + "'";
-            SqlCommand cmd = new SqlCommand(selectQuery, connection);
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.Read())
+            using (SqlConnection connection = OpenDataBase())
             {
-                string id = $"{reader[0]}";
-                connection.Close();
-                return id;
-            }
-            else
-            {
-                return "Invalid username or password";
+                SqlCommand cmd = new SqlCommand(selectQuery, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    string id = $"{reader[0]}";
+                    connection.Close();
+                    return id;
+                }
+                else
+                {
+                    return "Invalid username or password";
+                }
             }
         }
 
@@ -137,38 +139,41 @@ namespace INFT3050.DAL
         /// <param name="newUser"></param>
         internal void Update(UserClass newUser)
         {
-            SqlConnection connection = OpenDataBase();
             SqlCommand cmd;
             UserClass user = new UserClass();
-            cmd = new SqlCommand("select * from UserTable where Email='" + newUser.Email + "'", connection);
-            SqlDataReader dataReader = cmd.ExecuteReader();
-            user = ReadSingleRow(dataReader);
-            try
+            using (SqlConnection connection = OpenDataBase())
             {
-                user = ReadSingleRow(dataReader);
-            }
-            catch (Exception ex)
-            {
-                ErrorManage error = new ErrorManage();
-                // error.ShowError(ex);
-                throw;
-            }
+                cmd = new SqlCommand("select * from UserTable where Email='" + newUser.Email + "'", connection);
+                SqlDataReader dataReader = cmd.ExecuteReader();
+                try
+                {
+                    dataReader.Read();
+                    user = ReadSingleRow(dataReader);
+                }
+                catch (Exception ex)
+                {
+                    ErrorManage error = new ErrorManage();
+                    // error.ShowError(ex);
+                    throw;
+                }
+            }            
             user.Password = newUser.Password;
-
+            string insertQuery = "";
             if (user.UserID == 0)
             {
-                string insertQuery = "insert into UserTable(UserName, Email, Password, Role) values('" + newUser.UserName + "', '" + newUser.Email + "', '" + newUser.Password + "', '" + newUser.Role + "')";
-                // cmd = new SqlCommand(insertQuery, connection);
+                insertQuery = "insert into UserTable(UserName, Email, Password, Role) values('" + newUser.UserName + "', '" + newUser.Email + "', '" + newUser.Password + "', '" + newUser.Role + "')";
             }
             else
             {
                 string cartStatus = newUser.Role ?? "user";
-                string insertQuery = "UPDATE UserTable SET UserName='" + user.UserName + "', Email='" + user.Email + "', Password='" + user.Password + "', Role='" + user.Role + "' WHERE UserID=" + user.UserID;
-                cmd = new SqlCommand(insertQuery, connection);
+                insertQuery = "UPDATE UserTable SET UserName='" + user.UserName + "', Email='" + user.Email + "', Password='" + user.Password + "', Role='" + user.Role + "' WHERE UserID=" + user.UserID;
+                
             }
-
-            cmd.ExecuteReader();
-            connection.Close();
+            using (SqlConnection connection = OpenDataBase())
+            {
+                cmd = new SqlCommand(insertQuery, connection);
+                cmd.ExecuteReader();
+            }
         }
     }
 }

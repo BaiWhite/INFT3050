@@ -1,4 +1,5 @@
-﻿using INFT3050.Model;
+﻿using INFT3050.BLL;
+using INFT3050.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -138,19 +139,31 @@ namespace INFT3050.DAL
         {
             SqlConnection connection = OpenDataBase();
             SqlCommand cmd;
+            UserClass user = new UserClass();
+            cmd = new SqlCommand("select * from UserTable where Email='" + newUser.Email + "'", connection);
+            SqlDataReader dataReader = cmd.ExecuteReader();
+            user = ReadSingleRow(dataReader);
+            try
+            {
+                user = ReadSingleRow(dataReader);
+            }
+            catch (Exception ex)
+            {
+                ErrorManage error = new ErrorManage();
+                // error.ShowError(ex);
+                throw;
+            }
+            user.Password = newUser.Password;
 
-            if (newUser.UserID == 0)
+            if (user.UserID == 0)
             {
                 string insertQuery = "insert into UserTable(UserName, Email, Password, Role) values('" + newUser.UserName + "', '" + newUser.Email + "', '" + newUser.Password + "', '" + newUser.Role + "')";
-                cmd = new SqlCommand(insertQuery, connection);
+                // cmd = new SqlCommand(insertQuery, connection);
             }
             else
             {
-                cmd = new SqlCommand("select * from UserTable where UserID='" + newUser.UserID + "'", connection);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-
                 string cartStatus = newUser.Role ?? "user";
-                string insertQuery = "UPDATE UserTable SET UserName='" + newUser.UserName + "', Email='" + newUser.Email + "', Password='" + newUser.Password + "', Role='" + newUser.Role + "' WHERE ProductId=" + newUser.UserID;
+                string insertQuery = "UPDATE UserTable SET UserName='" + user.UserName + "', Email='" + user.Email + "', Password='" + user.Password + "', Role='" + user.Role + "' WHERE UserID=" + user.UserID;
                 cmd = new SqlCommand(insertQuery, connection);
             }
 

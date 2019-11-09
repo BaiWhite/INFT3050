@@ -100,10 +100,11 @@ namespace INFT3050.BLL
         /// update user information
         /// </summary>
         /// <param name="newUser">new user information</param>
-        internal void Update(UserClass newUser)
+        internal string Update(UserClass newUser)
         {
             UserDataAccess dataAccess = new UserDataAccess();
             dataAccess.Update(newUser);
+            return "";
         }
     }
 }

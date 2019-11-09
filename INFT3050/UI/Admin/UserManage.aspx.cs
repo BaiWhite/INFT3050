@@ -19,6 +19,13 @@ namespace INFT3050.UI.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.IsSecureConnection == false)
+            {
+                Response.Redirect(Request.Url.ToString().Replace("http://", "https://").Replace("65326", "44366"));
+            }
+            if (Request.Url.ToString().Substring(0, 4) != "http")
+                Response.Redirect("https://" + Request.Url.ToString());
+
             if (Request.QueryString["UserID"] == null)
             {
                 Response.Redirect("ListAllUserManage.aspx");

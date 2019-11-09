@@ -34,7 +34,7 @@ namespace INFT3050.BLL
             }
             else
             {
-                cart = dataAccess.GetCart(Convert.ToInt32(cartId), "", false);
+                cart = dataAccess.GetCart(Convert.ToInt32(cartId), "", false).First();
                 cart.Items.Add(cartItem);
             }
             dataAccess.CartUpdate(cart);
@@ -61,7 +61,7 @@ namespace INFT3050.BLL
         {
             Cart cart = new Cart();
             CartDataAccess dataAccess = new CartDataAccess();
-            cart = dataAccess.GetCart(Convert.ToInt32(cartId), "", false);
+            cart = dataAccess.GetCart(Convert.ToInt32(cartId), "", false).FirstOrDefault();
             return cart;
         }
     }

@@ -1,0 +1,18 @@
+﻿using INFT3050.DAL;
+using INFT3050.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace INFT3050.BLL
+{
+    public static class PaymentManager
+    {
+        /// <summary>
+        /// Create a payment system. 
+        /// </summary>
+        /// <returns></returns>
+        public static IPaymentSystem Create() { return new INFT3050PaymentSystem(); }
+    }
+}

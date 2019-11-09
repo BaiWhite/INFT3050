@@ -3,6 +3,7 @@ using INFT3050.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 
 namespace INFT3050.BLL
@@ -18,13 +19,22 @@ namespace INFT3050.BLL
         /// <param name="userName">user name</param>
         /// <param name="password">password</param>
         /// <returns>userid if login success, otherwish waring info</returns>
-        public string Login(string userName, string password)
+        public UserClass Login(string userName, string password)
         {
             Login login = new Login();
             login.UserName = userName;
             login.Password = password;
             UserDataAccess access = new UserDataAccess();
-            return access.LoginDataBase(login);
+            UserClass user = access.LoginDataBase(login);
+            if (user.UserID == 0)
+            {
+                user.UserName = "Invalid username or password";
+                return user;
+            }
+            else
+            {
+                return user;
+            }
         }
 
         /// <summary>
@@ -105,6 +115,17 @@ namespace INFT3050.BLL
             UserDataAccess dataAccess = new UserDataAccess();
             dataAccess.Update(newUser);
             return "";
+        }
+
+        internal bool IsAdmin(string userId)
+        {
+            UserDataAccess dataAccess = new UserDataAccess();
+            if (dataAccess.FindUser(userId).FirstOrDefault().Role.Contains("Admin"))
+            {
+                return true;
+            }
+            return false;
+
         }
     }
 }

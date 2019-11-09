@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 
 namespace INFT3050.Model
 {
-    public class UserClass
+    public class UserClass : IPrincipal
     {
         [Display(Name = "UserID")]
         /// <summary>
@@ -37,6 +38,13 @@ namespace INFT3050.Model
         /// Role
         /// </summary>
         public string Role { get; set; }
+
+        public IIdentity Identity { get; set; }
+
+        public bool IsInRole(string role)
+        {
+            return role == Role;
+        }
     }
 
     public class Login

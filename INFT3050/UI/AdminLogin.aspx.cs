@@ -1,4 +1,5 @@
 ﻿using INFT3050.BLL;
+using INFT3050.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +27,10 @@ namespace INFT3050.UI.Admin
         protected void LoginButton_Click(object sender, EventArgs e)
         {
             UserManager manager = new UserManager();
-            string result = manager.Login(UserName.Text, Password.Text);
-            if (result != "Logined")
+            UserClass result = manager.Login(UserName.Text, Password.Text);
+            if (result.UserName != "Invalid username or password")
             {
-                Warning.InnerHtml = result;
+                Warning.InnerHtml = result.UserName;
             }
             else
             {

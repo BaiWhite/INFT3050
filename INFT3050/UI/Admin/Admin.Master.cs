@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using INFT3050.BLL;
 
 namespace INFT3050.UI.Admin
 {
@@ -20,6 +21,11 @@ namespace INFT3050.UI.Admin
             }
             if (Request.Url.ToString().Substring(0, 4) != "http")
                 Response.Redirect("https://" + Request.Url.ToString());
+            UserManager manager = new UserManager();
+            if (!manager.IsAdmin(Session["userId"].ToString()))
+            {
+                Response.Redirect("~/");
+            }
         }
     }
 }

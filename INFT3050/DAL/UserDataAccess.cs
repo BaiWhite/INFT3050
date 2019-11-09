@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 
 namespace INFT3050.DAL
 {
@@ -31,23 +32,20 @@ namespace INFT3050.DAL
         /// </summary>
         /// <param name="login"></param>
         /// <returns>userID if valid, otherwise "Invalid username or password"</returns>
-        public string LoginDataBase(Login login)
+        public UserClass LoginDataBase(Login login)
         {
             string selectQuery = "select * FROM UserTable WHERE username='" + login.UserName + "' and password='" + login.Password + "'";
             using (SqlConnection connection = OpenDataBase())
             {
                 SqlCommand cmd = new SqlCommand(selectQuery, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
+                UserClass user = new UserClass();
                 if (reader.Read())
                 {
-                    string id = $"{reader[0]}";
-                    connection.Close();
-                    return id;
+                    user = ReadSingleRow(reader);
                 }
-                else
-                {
-                    return "Invalid username or password";
-                }
+                connection.Close();
+                return user;
             }
         }
 

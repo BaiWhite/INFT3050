@@ -2,7 +2,9 @@
 using INFT3050.BLL;
 using INFT3050.Model;
 using System;
+using System.Collections.Generic;
 using System.Web;
+using System.Web.Security;
 
 namespace INFT3050.UI
 {
@@ -39,16 +41,29 @@ namespace INFT3050.UI
             else
             {
                 UserManager manager = new UserManager();
-                string result = manager.Login(UserName.Text, Password.Text);
-                if (result == "Invalid username or password")
+                UserClass result = manager.Login(UserName.Text, Password.Text);
+                if (result.UserName == "Invalid username or password")
                 {
-                    Warning.InnerHtml = result;
+                    Warning.InnerHtml = result.UserName;
                 }
                 else
                 {
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                        1,
+                        result.UserName,
+                        DateTime.Now,
+                        DateTime.Now.AddMinutes(30),
+                        false,
+                        result.ToString());
+                    string hashTicket = FormsAuthentication.Encrypt(ticket);
+                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hashTicket);
+                    cookie.Expires = DateTime.Now.AddDays(7);
+                    Response.Cookies.Add(cookie);
+                    HttpContext.Current.User = result;
+                    string requestUrl = FormsAuthentication.GetRedirectUrl(FormsAuthentication.FormsCookieName, false);
                     Session["name"] = UserName.Text;
-                    Session["userId"] = result;
-                    Response.Redirect("~/");
+                    Session["userId"] = result.UserID;
+                    Response.Redirect(requestUrl);
                 }
             }
         }
